@@ -3,8 +3,10 @@ package globo.com.br.globoshop
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.visa.checkout.Environment
 import com.visa.checkout.VisaCheckoutSdk
@@ -17,6 +19,10 @@ import io.clappr.player.base.Options
 import io.clappr.player.log.Logger
 
 class MainActivity : AppCompatActivity() {
+    private val mHandler = Handler()
+    private val runnable = Runnable {
+        findViewById(R.id.product).visibility = View.VISIBLE
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.container, player)
         fragmentTransaction.commit()
+        showProduct()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,5 +97,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val VISA_CHECKOUT_REQUEST_CODE = 10102
         private val TAG = MainActivity::class.java.simpleName
+    }
+
+    fun showProduct() {
+        mHandler.postDelayed(runnable, 10000)
     }
 }
