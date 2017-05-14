@@ -2,14 +2,12 @@ package globo.com.br.globoshop
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.BindingAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.*
@@ -42,18 +40,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var mDatabase: DatabaseReference? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mDatabase = database.reference
+        mDatabase = database.getReference("videos")
         // Attach a listener to read the data at our posts reference
         mDatabase?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val video = dataSnapshot.children.first().getValue(Content::class.java)
                 Log.d("pegou", "pegou:" + video.video)
                 title = video.produtos.first().musica.nome
-                desc = video.produtos.first().musica.valor.toString()
+                desc = "R$: " + video.produtos.first().musica.valor
                 showProduct()
             }
 
@@ -85,7 +82,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         buttonPlayPause!!.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp)
 
         val imageButtonPlayPauseListener = View.OnClickListener {
-            if (player!!.state == Player.State.PLAYING ) {
+            if (player!!.state == Player.State.PLAYING) {
                 player!!.pause()
                 buttonPlayPause!!.setImageResource(R.drawable.ic_play_circle_filled_black_24dp)
             } else {
@@ -144,7 +141,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun showProduct() {
-        mHandler.postDelayed(runnable, 3000)
+        mHandler.postDelayed(runnable, 6000)
     }
 
     override fun onClick(v: View?) {
