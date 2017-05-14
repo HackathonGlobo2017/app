@@ -7,7 +7,9 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.database.*
 import com.visa.checkout.Environment
 import com.visa.checkout.VisaCheckoutSdk
 import com.visa.checkout.VisaCheckoutSdkInitListener
@@ -18,15 +20,42 @@ import io.clappr.player.base.Event
 import io.clappr.player.base.Options
 import io.clappr.player.log.Logger
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+
     private val mHandler = Handler()
+    private var title: String = ""
+    private var desc: String = ""
+
     private val runnable = Runnable {
         findViewById(R.id.product).visibility = View.VISIBLE
+        (findViewById(R.id.title) as TextView).text = title
+        (findViewById(R.id.value) as TextView).text = desc
+
     }
+    var database = FirebaseDatabase.getInstance()
+    var mDatabase: DatabaseReference? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mDatabase = database.reference
+        // Attach a listener to read the data at our posts reference
+        mDatabase?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val video = dataSnapshot.children.first().getValue(Content::class.java)
+                Log.d("pegou", "pegou:" + video.video)
+                title = video.produtos.first().musica.nome
+                desc = video.produtos.first().musica.valor.toString()
+                showProduct()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("The read failed: " + databaseError.code)
+            }
+        })
 
         VisaCheckoutSdk.init(applicationContext, Environment.SANDBOX,
                 "6CTXIFZ3UZWM2DXI2Q9M21UxOpwAB1yOztxO3Q9PjogfEXBNk", "SYSTEMDEFAULT",
@@ -47,28 +76,21 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.container, player)
         fragmentTransaction.commit()
-        showProduct()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == VISA_CHECKOUT_REQUEST_CODE) {
             Log.d(TAG, "Result got back from Visa Checkout SDK")
-            var msg: String? = null
+            var msg: String = "Compra realizada com sucesso!"
             val bundle = Bundle()
 
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val paymentSummary = data.getParcelableExtra<VisaPaymentSummary>(VisaCheckoutSdk.INTENT_PAYMENT_SUMMARY)
                 if (paymentSummary != null) {
-                    msg = "Purchase Success!"
                     bundle.putParcelable(VisaCheckoutSdk.INTENT_PAYMENT_SUMMARY, paymentSummary)
-
-                    finish()
-
-                    // start the next activity
-                    val intent = Intent(this, MainActivity::class.java)
                     bundle.putString("msg", msg)
-                    intent.putExtras(bundle)
-                    startActivity(intent)
+                    findViewById(R.id.btnCallNext).visibility = View.VISIBLE
+                    findViewById(R.id.btnCallNext).setOnClickListener(this)
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 msg = "User Canceled, Result Code : " + resultCode
@@ -100,6 +122,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showProduct() {
-        mHandler.postDelayed(runnable, 10000)
+        mHandler.postDelayed(runnable, 3000)
+    }
+
+    override fun onClick(v: View?) {
+        startActivity(Intent(this@MainActivity, PurchasesActivity::class.java))
     }
 }

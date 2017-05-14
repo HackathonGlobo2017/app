@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="globo.com.br.globoshop.MainActivity">
-
-    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        tools:context="io.clappr.player.app.PlayerActivity"
-        tools:ignore="MergeRootFrame" />
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="globo.com.br.globoshop.PurchasesActivity"
+    tools:showIn="@layout/activity_purchases">
 
     <LinearLayout
         android:id="@+id/product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/container"
-        android:orientation="vertical"
-        android:visibility="invisible">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,33 +36,28 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Banda"
                     android:textSize="30dp" />
 
-                <TextView
-                    android:id="@+id/value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp" />
-
             </LinearLayout>
-
         </LinearLayout>
-
-        <!-- Visa Payment Button Integration -->
-        <com.visa.checkout.widget.VisaPaymentButton
-            android:id="@+id/visaCheckoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="20dp" />
-
-        <Button
-            android:id="@+id/btnCallNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Ver lista compras"
-            android:visibility="gone" />
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/ButtonTestPlayPause"
+        android:layout_width="85dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/product"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="TestPlayPause"
+        android:onClick="onClick"
+        android:src="@drawable/ic_play_circle_filled_black_24dp" />
+
+    <SeekBar
+        android:id="@+id/SeekBarTestPlay"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ButtonTestPlayPause" />
 </RelativeLayout>

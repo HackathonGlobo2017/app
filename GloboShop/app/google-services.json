@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "411689509269",
+    "firebase_url": "https://globoplaysom.firebaseio.com",
+    "project_id": "globoplaysom",
+    "storage_bucket": "globoplaysom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411689509269:android:78ec46666f82d155",
+        "android_client_info": {
+          "package_name": "globo.com.br.globoshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411689509269-ohb1tvcue2sn60dgsl95bh77j21iul46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZZxLJFH1xGRYL6HMh6WCm2z5epcisuKY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
