@@ -2,11 +2,14 @@ package globo.com.br.globoshop
 
 import android.app.Activity
 import android.content.Intent
+import android.databinding.BindingAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.*
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val mHandler = Handler()
     private var title: String = ""
     private var desc: String = ""
+    private var buttonPlayPause: ImageButton? = null
 
     private val runnable = Runnable {
         findViewById(R.id.product).visibility = View.VISIBLE
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
     var database = FirebaseDatabase.getInstance()
     var mDatabase: DatabaseReference? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +77,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         player.on(Event.PLAYING.value, Callback.wrap { Logger.info("Playing", "App") })
         player.on(Event.DID_COMPLETE.value, Callback.wrap { Logger.info("Completed", "App") })
         player.on(Event.BUFFER_UPDATE.value, Callback.wrap { bundle: Bundle? -> Logger.info("Buffer update: " + bundle?.getDouble("percentage"), "App") })
+
+
+
+        buttonPlayPause = findViewById(R.id.buttonPlayPause) as ImageButton
+
+        buttonPlayPause!!.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp)
+
+        val imageButtonPlayPauseListener = View.OnClickListener {
+            if (player!!.state == Player.State.PLAYING ) {
+                player!!.pause()
+                buttonPlayPause!!.setImageResource(R.drawable.ic_play_circle_filled_black_24dp)
+            } else {
+                player!!.play()
+                buttonPlayPause!!.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp)
+            }
+        }
+        buttonPlayPause!!.setOnClickListener(imageButtonPlayPauseListener);
 
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.container, player)
