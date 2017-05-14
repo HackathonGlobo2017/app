@@ -32,8 +32,8 @@ class PurchasesActivity : AppCompatActivity(), View.OnClickListener, View.OnTouc
     override fun onClick(v: View) {
         if (v.id == R.id.ButtonTestPlayPause) {
             try {
-                mediaPlayer!!.setDataSource("http://www.mfiles.co.uk/mp3-downloads/frederic-chopin-piano-sonata-2-op35-3-funeral-march.mp3") // setup song from http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
-                mediaPlayer!!.prepare() // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
+                mediaPlayer!!.setDataSource("http://dl.mp3xd.eu/xd/c26Yh6pmvi24/Red+hot+chilli+peppers+by.mp3") // setup song from http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
+                mediaPlayer!!.prepare()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -54,7 +54,6 @@ class PurchasesActivity : AppCompatActivity(), View.OnClickListener, View.OnTouc
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (v.id == R.id.SeekBarTestPlay) {
-            /** Seekbar onTouch event handler. Method which seeks MediaPlayer to seekBar primary progress position */
             if (mediaPlayer!!.isPlaying) {
                 val sb = v as SeekBar
                 val playPositionInMillisecconds = mediaFileLengthInMilliseconds / 100 * sb.progress
@@ -65,17 +64,15 @@ class PurchasesActivity : AppCompatActivity(), View.OnClickListener, View.OnTouc
     }
 
     override fun onCompletion(mp: MediaPlayer) {
-        /** MediaPlayer onCompletion event handler. Method which calls then song playing is complete */
         buttonPlayPause!!.setImageResource(R.drawable.ic_play_circle_filled_black_24dp)
     }
 
     override fun onBufferingUpdate(mp: MediaPlayer, percent: Int) {
-        /** Method which updates the SeekBar secondary progress by current song loading from URL position */
         seekBarProgress!!.secondaryProgress = percent
     }
 
     private fun primarySeekBarProgressUpdater() {
-        seekBarProgress!!.progress = mediaPlayer!!.currentPosition / 1000 // This math construction give a percentage of "was playing"/"song length"
+        seekBarProgress!!.progress = mediaPlayer!!.currentPosition / 1000
         if (mediaPlayer!!.isPlaying) {
             val notification = Runnable { primarySeekBarProgressUpdater() }
             handler.postDelayed(notification, 1000)
@@ -87,7 +84,7 @@ class PurchasesActivity : AppCompatActivity(), View.OnClickListener, View.OnTouc
         buttonPlayPause!!.setOnClickListener(this)
 
         seekBarProgress = findViewById(R.id.SeekBarTestPlay) as SeekBar
-        seekBarProgress!!.max = 99 // It means 100% .0-99
+        seekBarProgress!!.max = 99
         seekBarProgress!!.setOnTouchListener(this)
 
 

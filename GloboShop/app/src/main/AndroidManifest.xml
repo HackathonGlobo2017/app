@@ -31,7 +31,6 @@
         </activity>
         <activity
             android:name=".PurchasesActivity"
-            android:label="@string/title_activity_purchases"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -33,7 +33,7 @@
                     android:id="@+id/lista_curso_personalizada_imagem"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_library_music_black_24dp" />
+                    android:src="@drawable/som_livre" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
