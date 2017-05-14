@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import com.dant.centersnapreyclerview.SnappingRecyclerView
 import com.google.firebase.database.*
 import com.visa.checkout.Environment
 import com.visa.checkout.VisaCheckoutSdk
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var title: String = ""
     private var desc: String = ""
     private var buttonPlayPause: ImageButton? = null
+    private var snappingRecyclerView: SnappingRecyclerView? = null
+    private var products: ArrayList<Product>? = null
 
     private val runnable = Runnable {
         findViewById(R.id.product).visibility = View.VISIBLE
@@ -92,6 +95,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         buttonPlayPause!!.setOnClickListener(imageButtonPlayPauseListener);
 
+
+        createMockProducts()
+
+        snappingRecyclerView?.adapter = SnapyRecycleViewerAdapter( products, this@MainActivity)
+
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.container, player)
         fragmentTransaction.commit()
@@ -129,6 +137,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+    fun createMockProducts() {
+        var product1= Product()
+        product1.nome = "Óleo de amedoas"
+        product1.imgUrl = "http://cdn1.mundodastribos.com/179726-Presentes-Natura-para-Dia-das-M%C3%A3es-3.jpg"
+        var product2 = Product()
+        product2.nome = "Óleo de amedoas"
+        product2.imgUrl = "http://cdn1.mundodastribos.com/179726-Presentes-Natura-para-Dia-das-M%C3%A3es-3.jpg"
+        var product3 = Product()
+        product3.nome = "Óleo de amedoas"
+        product3.imgUrl = "http://cdn1.mundodastribos.com/179726-Presentes-Natura-para-Dia-das-M%C3%A3es-3.jpg"
+        var product4 = Product()
+        product4.nome = "Óleo de amedoas"
+        product4.imgUrl = "http://cdn1.mundodastribos.com/179726-Presentes-Natura-para-Dia-das-M%C3%A3es-3.jpg"
+        products?.set(0 ,  product1);
+        products?.set(1 ,  product2);
+        products?.set(2 ,  product3);
+        products?.set(3 ,  product4);
+
+    }
+
 
     override fun onBackPressed() {
         finish()

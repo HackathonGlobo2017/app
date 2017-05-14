@@ -79,6 +79,20 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:focusableInTouchMode="true">
+
+                <com.dant.centersnapreyclerview.SnappingRecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:orientation="horizontal"
+                    app:anchor="center" />
+
+            </LinearLayout>
+
+
             <!-- Visa Payment Button Integration -->
             <com.visa.checkout.widget.VisaPaymentButton
                 android:id="@+id/visaCheckoutButton"
